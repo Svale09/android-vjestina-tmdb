@@ -13,9 +13,14 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import androidx.compose.foundation.clickable as clickable
 
+data class MovieCardViewState(
+    val imageUrl: String?,
+    val isFavourite: Boolean,
+)
+
 @Composable
 fun MovieCard(
-    movieCardViewState: Movie,
+    movieCardViewState: MovieCardViewState,
     modifier: Modifier = Modifier,
     onCardClick: () -> Unit,
     onFavouriteToggle: (Boolean) -> Unit
@@ -49,7 +54,7 @@ fun MovieCard(
 private fun PreviewMovieCard() {
     val movies = getMoviesList()
     MovieCard(
-        movieCardViewState = movies[0],
+        movieCardViewState = MovieCardViewState(movies[0].imageUrl, movies[0].isFavorite),
         onCardClick = {},
         onFavouriteToggle = {}
     )
