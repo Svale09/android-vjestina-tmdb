@@ -2,6 +2,7 @@ package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock.getMoviesList
 import agency.five.codebase.android.movieapp.model.Movie
+import agency.five.codebase.android.movieapp.ui.theme.Spacing
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
@@ -28,9 +29,9 @@ fun MovieCard(
     Card(
         modifier
             .size(122.dp, 179.dp)
-            .padding(8.dp)
+            .padding(Spacing().small)
             .clickable{onCardClick()},
-        elevation = 10.dp
+        elevation = Spacing().small
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
