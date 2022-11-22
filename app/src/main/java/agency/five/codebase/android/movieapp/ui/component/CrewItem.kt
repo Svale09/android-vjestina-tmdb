@@ -9,14 +9,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 
 
-data class CrewMember(
+data class CrewmanViewState(
     val name: String,
     val job: String,
 )
 
 @Composable
 fun CrewItem(
-    crewMember: CrewMember,
+    crewMember: CrewmanViewState,
     modifier: Modifier,
 ) {
     Column(modifier.wrapContentSize()) {
@@ -31,5 +31,5 @@ fun CrewItem(
 @Preview(showBackground = true)
 @Composable
 private fun CrewItemPreview() {
-    CrewItem(crewMember = CrewMember(name = "Jon Favreau", job = "Director"), modifier = Modifier)
+    CrewItem(crewMember = CrewmanViewState(name = "Jon Favreau", job = "Director"), modifier = Modifier)
 }

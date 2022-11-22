@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,12 +25,12 @@ fun UserScoreProgressBar(
     Box(modifier.wrapContentSize()) {
         Canvas(
             modifier = Modifier
-                .size(80.dp)
-                .padding(10.dp),
+                .size(60.dp)
+                .padding(3.dp)
         ) {
             drawArc(
                 color = Color(152, 237, 159),
-                alpha = 0.2f,
+                alpha = 0.4f,
                 startAngle = 0f,
                 sweepAngle = 360f,
                 useCenter = false,
@@ -38,14 +39,14 @@ fun UserScoreProgressBar(
             drawArc(
                 color = Color(61, 235, 75),
                 startAngle = 270f,
-                sweepAngle = movieProgress * 360f,
+                sweepAngle = (movieProgress/10) * 360f,
                 useCenter = false,
                 style = Stroke(width = 6.dp.toPx())
             )
         }
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = (movieProgress * 100).toString(),
+            text = (movieProgress).toString(),
             color = Color.White,
             fontSize = 20.sp
         )

@@ -20,6 +20,11 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import agency.five.codebase.android.movieapp.mock.MoviesMock.getActor
 
+data class ActorViewState(
+    val name: String,
+    val character: String,
+    val imageUrl: String
+)
 
 @Composable
 fun ActorCard(

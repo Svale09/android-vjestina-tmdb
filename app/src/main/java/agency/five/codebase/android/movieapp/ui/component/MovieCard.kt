@@ -43,7 +43,7 @@ fun MovieCard(
             )
             FavouriteButton(
                 modifier = Modifier.align(Alignment.TopStart),
-                buttonViewState = FavouriteButtonState(false),
+                isFavourite = false,
                 onFavouriteToggle = onFavouriteToggle
             )
         }
