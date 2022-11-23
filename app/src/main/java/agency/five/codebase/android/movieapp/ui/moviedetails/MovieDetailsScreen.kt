@@ -1,7 +1,6 @@
 package agency.five.codebase.android.movieapp.ui.moviedetails
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock
-import agency.five.codebase.android.movieapp.model.Crewman
 import agency.five.codebase.android.movieapp.ui.component.*
 import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapper
 import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapperImpl
@@ -10,9 +9,12 @@ import agency.five.codebase.android.movieapp.ui.theme.SectionTitle
 import agency.five.codebase.android.movieapp.ui.theme.Spacing
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +42,12 @@ fun MovieDetailsScreen(
     Scaffold(
         topBar = { TopBar(onBackClick = {}) },
         bottomBar = { BottomBar(onHomeClick = {}, onFavouriteClick = {}) },
-        content = { padding -> MovieDetailsBody(padding = Spacing(), movieDetailsScreenViewState) }
+        content = { padding ->
+            MovieDetailsBody(
+                padding = Spacing(),
+                movieDetailsScreenViewState = MovieDetailsScreenViewState
+            )
+        }
     )
 }
 
@@ -49,7 +56,26 @@ fun MovieDetailsBody(
     padding: Spacing,
     movieDetailsScreenViewState: MovieDetailsViewState
 ) {
+    val scrollState = rememberScrollState()
 
+    Column(
+        Modifier
+            .verticalScroll(scrollState)
+            .padding(padding.default)
+            .fillMaxSize()
+    )
+    {
+        Poster(movieDetailsScreenViewState = movieDetailsScreenViewState)
+        MovieOverview(overview = movieDetailsScreenViewState.overview)
+        CrewGrid(crewmen = movieDetailsScreenViewState.crew)
+        CastGrid(cast = movieDetailsScreenViewState.cast)
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewMovieDetailsBody() {
+    MovieDetailsBody(padding = Spacing(), movieDetailsScreenViewState = MovieDetailsScreenViewState)
 }
 
 @Composable
@@ -141,14 +167,15 @@ private fun PreviewMovieOverview() {
 fun CrewGrid(
     crewmen: List<CrewmanViewState>
 ) {
-    LazyHorizontalGrid(
+    LazyVerticalGrid(
         modifier = Modifier
             .fillMaxWidth()
             .padding(Spacing().medium)
-            .height(100.dp),
-        rows = GridCells.Fixed(2),
+            .wrapContentHeight(), //crash happens if the height isn't set to an exact measurements
+        columns = GridCells.Fixed(3),
         verticalArrangement = Arrangement.spacedBy(Spacing().medium),
-        horizontalArrangement = Arrangement.spacedBy(Spacing().large),
+        horizontalArrangement = Arrangement.spacedBy(42.dp),
+        userScrollEnabled = false,
         content = {
             items(crewmen.size) { index ->
                 CrewItem(crewMember = crewmen[index], modifier = Modifier)
@@ -161,4 +188,36 @@ fun CrewGrid(
 @Composable
 private fun PreviewCrewGrid() {
     CrewGrid(crewmen = MovieDetailsScreenViewState.crew)
+}
+
+@Composable
+fun CastGrid(
+    cast: List<ActorViewState>
+) {
+    Column(
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(text = "Top Billed Cast", style = SectionTitle, modifier = Modifier.padding(10.dp))
+        /*LazyHorizontalGrid(
+            rows = GridCells.Fixed(1),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            content = {
+                items(cast.size) { index ->
+                    ActorCard(actorCardViewState = cast[index])
+                }
+            }
+        )*/
+        LazyRow() {
+            items(cast.size) { index ->  
+                ActorCard(actorCardViewState = cast[index])
+            }
+        }
+    }
+
+}
+
+@Preview
+@Composable
+private fun PreviewCastGrid() {
+    CastGrid(cast = MovieDetailsScreenViewState.cast)
 }

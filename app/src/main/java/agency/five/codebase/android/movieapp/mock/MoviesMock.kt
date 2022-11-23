@@ -57,7 +57,7 @@ object MoviesMock {
         releaseDate = "17/12/2021",
         language = "US",
         runtime = 148,
-        crew = List(12) {
+        crew = List(6) {
             Crewman(
                 id = it,
                 name = "Jon Watts",
