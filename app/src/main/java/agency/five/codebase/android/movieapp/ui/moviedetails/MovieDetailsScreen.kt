@@ -1,10 +1,8 @@
 package agency.five.codebase.android.movieapp.ui.moviedetails
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock
-import agency.five.codebase.android.movieapp.ui.component.BottomBar
-import agency.five.codebase.android.movieapp.ui.component.FavouriteButton
-import agency.five.codebase.android.movieapp.ui.component.TopBar
-import agency.five.codebase.android.movieapp.ui.component.UserScoreProgressBar
+import agency.five.codebase.android.movieapp.model.Crewman
+import agency.five.codebase.android.movieapp.ui.component.*
 import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapper
 import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.CustomHeader
@@ -12,6 +10,9 @@ import agency.five.codebase.android.movieapp.ui.theme.SectionTitle
 import agency.five.codebase.android.movieapp.ui.theme.Spacing
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -113,7 +114,7 @@ private fun PreviewPoster() {
 
 @Composable
 fun MovieOverview(
-    movieDetailsScreenViewState: MovieDetailsViewState
+    overview: String,
 ) {
     Column(Modifier.padding(Spacing().medium)) {
         Text(
@@ -124,7 +125,7 @@ fun MovieOverview(
                 .padding(bottom = Spacing().small)
         )
         Text(
-            text = movieDetailsScreenViewState.overview,
+            text = overview,
             fontSize = 14.sp
         )
     }
@@ -133,5 +134,31 @@ fun MovieOverview(
 @Preview
 @Composable
 private fun PreviewMovieOverview() {
-    MovieOverview(movieDetailsScreenViewState = MovieDetailsScreenViewState)
+    MovieOverview(overview = MovieDetailsScreenViewState.overview)
+}
+
+@Composable
+fun CrewGrid(
+    crewmen: List<CrewmanViewState>
+) {
+    LazyHorizontalGrid(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(Spacing().medium)
+            .height(100.dp),
+        rows = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(Spacing().medium),
+        horizontalArrangement = Arrangement.spacedBy(Spacing().large),
+        content = {
+            items(crewmen.size) { index ->
+                CrewItem(crewMember = crewmen[index], modifier = Modifier)
+            }
+        }
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewCrewGrid() {
+    CrewGrid(crewmen = MovieDetailsScreenViewState.crew)
 }

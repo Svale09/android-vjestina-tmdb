@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 
 
 data class CrewmanViewState(
@@ -22,7 +23,8 @@ fun CrewItem(
     Column(modifier.wrapContentSize()) {
         Text(
             text = crewMember.name,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp
         )
         Text(text = crewMember.job)
     }
