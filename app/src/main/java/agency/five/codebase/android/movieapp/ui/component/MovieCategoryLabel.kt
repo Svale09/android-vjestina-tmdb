@@ -17,10 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 
-sealed class MovieCategoryLabelTextViewState()
-data class MovieCategoryStringParam(val value: String) : MovieCategoryLabelTextViewState()
-data class MovieCategoryStringResource(@StringRes val value: Int) :
-    MovieCategoryLabelTextViewState()
+sealed class MovieCategoryLabelTextViewState {
+    data class MovieCategoryStringParam(val value: String) : MovieCategoryLabelTextViewState()
+    data class MovieCategoryStringResource(@StringRes val value: Int) :
+        MovieCategoryLabelTextViewState()
+}
 
 data class MovieCategoryLabelViewState(
     val itemId: Int,
@@ -42,8 +43,8 @@ fun MovieCategoryLabel(
         ) {
             Text(
                 text = when (movieCategoryLabelViewState.categoryText) {
-                    is MovieCategoryStringParam -> movieCategoryLabelViewState.categoryText.value
-                    is MovieCategoryStringResource -> stringResource(id = movieCategoryLabelViewState.categoryText.value)
+                    is MovieCategoryLabelTextViewState.MovieCategoryStringParam -> movieCategoryLabelViewState.categoryText.value
+                    is MovieCategoryLabelTextViewState.MovieCategoryStringResource -> stringResource(id = movieCategoryLabelViewState.categoryText.value)
                 },
                 fontSize = 24.sp,
                 fontWeight = if (movieCategoryLabelViewState.isSelected) FontWeight.Bold else FontWeight.Normal,
@@ -69,7 +70,7 @@ private fun PreviewMovieCategoryLabel() {
         movieCategoryLabelViewState = MovieCategoryLabelViewState(
             1,
             false,
-            MovieCategoryStringParam("Action")
+            MovieCategoryLabelTextViewState.MovieCategoryStringParam("Action")
         ),
         modifier = Modifier,
         onClick = {}
