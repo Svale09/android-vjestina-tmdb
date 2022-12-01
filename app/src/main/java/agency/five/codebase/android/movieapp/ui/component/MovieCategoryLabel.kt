@@ -46,7 +46,7 @@ fun MovieCategoryLabel(
                     is MovieCategoryLabelTextViewState.MovieCategoryStringParam -> movieCategoryLabelViewState.categoryText.value
                     is MovieCategoryLabelTextViewState.MovieCategoryStringResource -> stringResource(id = movieCategoryLabelViewState.categoryText.value)
                 },
-                fontSize = 24.sp,
+                fontSize = 16.sp,
                 fontWeight = if (movieCategoryLabelViewState.isSelected) FontWeight.Bold else FontWeight.Normal,
                 color = if (movieCategoryLabelViewState.isSelected) Color.Black else Gray700,
             )

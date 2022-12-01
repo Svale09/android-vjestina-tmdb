@@ -1,7 +1,8 @@
-package agency.five.codebase.android.movieapp.ui.home
+package agency.five.codebase.android.movieapp.ui.home.mapper
 
 import agency.five.codebase.android.movieapp.model.Movie
 import agency.five.codebase.android.movieapp.model.MovieCategory
+import agency.five.codebase.android.movieapp.ui.home.HomeMovieCategoryViewState
 
 interface HomeScreenMapper {
 

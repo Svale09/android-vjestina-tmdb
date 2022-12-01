@@ -1,10 +1,12 @@
-package agency.five.codebase.android.movieapp.ui.home
+package agency.five.codebase.android.movieapp.ui.home.mapper
 
 import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.model.Movie
 import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.ui.component.MovieCategoryLabelTextViewState
 import agency.five.codebase.android.movieapp.ui.component.MovieCategoryLabelViewState
+import agency.five.codebase.android.movieapp.ui.home.HomeMovieCategoryViewState
+import agency.five.codebase.android.movieapp.ui.home.HomeMovieViewState
 
 
 class HomeScreenMapperImpl : HomeScreenMapper {
@@ -14,7 +16,7 @@ class HomeScreenMapperImpl : HomeScreenMapper {
         movies: List<Movie>
     ): HomeMovieCategoryViewState {
         return HomeMovieCategoryViewState(
-            moviecategories = toHomeMovieCategoryLabelViewState(
+            movieCategories = toHomeMovieCategoryLabelViewState(
                 movieCategories,
                 selectedMovieCategory
             ),
@@ -28,8 +30,8 @@ class HomeScreenMapperImpl : HomeScreenMapper {
             homeMoviesViewStates.add(
                 HomeMovieViewState(
                     movie.id,
-                    movie.imageUrl,
-                    movie.isFavorite
+                    movie.isFavorite,
+                    movie.imageUrl
                 )
             )
         }
@@ -64,14 +66,3 @@ class HomeScreenMapperImpl : HomeScreenMapper {
         return movieCategoryLabelViewState
     }
 }
-
-data class HomeMovieCategoryViewState(
-    val moviecategories: List<MovieCategoryLabelViewState>,
-    val movies: List<HomeMovieViewState>
-)
-
-data class HomeMovieViewState(
-    val id: Int,
-    val imageUrl: String?,
-    val isFavorite: Boolean,
-)
