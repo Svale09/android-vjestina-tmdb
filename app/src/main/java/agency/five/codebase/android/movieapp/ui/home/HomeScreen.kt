@@ -1,24 +1,25 @@
 package agency.five.codebase.android.movieapp.ui.home
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock
+import agency.five.codebase.android.movieapp.mock.MoviesMock.getMoviesList
 import agency.five.codebase.android.movieapp.model.MovieCategory
-import agency.five.codebase.android.movieapp.ui.component.BottomBar
-import agency.five.codebase.android.movieapp.ui.component.MovieCategoryLabel
-import agency.five.codebase.android.movieapp.ui.component.TopBar
+import agency.five.codebase.android.movieapp.ui.component.*
 import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapper
 import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapperImpl
+import agency.five.codebase.android.movieapp.ui.theme.CustomHeader
 import agency.five.codebase.android.movieapp.ui.theme.Spacing
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 
 val homeScreenMapper: HomeScreenMapper = HomeScreenMapperImpl()
@@ -37,7 +38,7 @@ val popularCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
 val nowPlayingCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
     movieCategories = listOf(
         MovieCategory.NOWPLAYING_MOVIES,
-        MovieCategory.NOWPLAYING_MOVIES,
+        MovieCategory.NOWPLAYING_TV,
     ),
     selectedMovieCategory = MovieCategory.NOWPLAYING_MOVIES,
     movies = MoviesMock.getMoviesList()
@@ -59,16 +60,29 @@ fun HomeScreen() {
         bottomBar = { BottomBar(onHomeClick = {}, onFavouriteClick = {}) },
         content = {}
     )
+
 }
 
 @Composable
-fun HomeScreenBody() {
+fun HomeScreenBody(
+) {
     LazyColumn {
         item {
-            HomeScreenCategoryList()
-            LazyRow() {
-
-            }
+            HomeScreenCategoryHeader("Popular")
+            HomeScreenCategoryList(popularCategoryViewState)
+            HomeScreenCategoryMoviesList(
+                movieCategory = popularCategoryViewState,
+                onCategoryClick = {})
+        }
+        item {
+            HomeScreenCategoryHeader(sectionTitle = "Now Playing")
+            HomeScreenCategoryList(nowPlayingCategoryViewState)
+            HomeScreenCategoryMoviesList(movieCategory = nowPlayingCategoryViewState, onCategoryClick = {})
+        }
+        item {
+            HomeScreenCategoryHeader(sectionTitle = "Upcoming")
+            HomeScreenCategoryList(upcomingCategoryViewState)
+            HomeScreenCategoryMoviesList(movieCategory = upcomingCategoryViewState, onCategoryClick = {})
         }
     }
 }
@@ -80,14 +94,51 @@ private fun PreviewHomeScreenBody() {
 }
 
 @Composable
-fun HomeScreenCategoryList(){
+fun HomeScreenCategoryList(
+    categories: HomeMovieCategoryViewState
+) {
     LazyRow(
-        modifier = Modifier.padding(Spacing().medium),
+        modifier = Modifier.padding(horizontal = Spacing().medium, vertical = Spacing().small),
         horizontalArrangement = Arrangement.spacedBy(Spacing().large)
     ) {
-        items(popularCategoryViewState.movieCategories.count()){
-                item ->
-            MovieCategoryLabel(movieCategoryLabelViewState = popularCategoryViewState.movieCategories[item], onClick = {})
+        items(categories.movieCategories.count()) { item ->
+            MovieCategoryLabel(
+                movieCategoryLabelViewState = categories.movieCategories[item],
+                onClick = {})
         }
     }
+}
+
+@Composable
+fun HomeScreenCategoryMoviesList(
+    movieCategory: HomeMovieCategoryViewState,
+    onCategoryClick: (MovieCategoryLabelViewState) -> Unit
+) {
+    val movies = movieCategory.movies
+    LazyRow(modifier = Modifier.padding(Spacing().small)) {
+        items(movies.count()) { item ->
+            MovieCard(
+                movieCardViewState = MovieCardViewState(
+                    movies[item].imageUrl,
+                    movies[item].isFavorite
+                ),
+                onCardClick = { /*TODO*/ },
+                onFavouriteToggle = {},
+                modifier = Modifier
+                    .height(200.dp)
+                    .width(130.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun HomeScreenCategoryHeader(
+    sectionTitle: String
+) {
+    Text(
+        text = sectionTitle,
+        modifier = Modifier.padding(horizontal = Spacing().medium),
+        style = CustomHeader
+    )
 }

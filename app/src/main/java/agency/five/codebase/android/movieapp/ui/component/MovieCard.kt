@@ -28,7 +28,7 @@ fun MovieCard(
 ) {
     Card(
         modifier
-            .size(122.dp, 179.dp)
+            .size(120.dp, 180.dp)
             .padding(Spacing().small)
             .clickable{onCardClick()},
         elevation = Spacing().small
