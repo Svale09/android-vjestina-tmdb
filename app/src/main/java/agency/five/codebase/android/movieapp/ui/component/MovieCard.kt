@@ -2,6 +2,7 @@ package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock.getMoviesList
 import agency.five.codebase.android.movieapp.model.Movie
+import agency.five.codebase.android.movieapp.ui.home.HomeMovieViewState
 import agency.five.codebase.android.movieapp.ui.theme.Spacing
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
@@ -23,14 +24,14 @@ data class MovieCardViewState(
 fun MovieCard(
     movieCardViewState: MovieCardViewState,
     modifier: Modifier = Modifier,
-    onCardClick: () -> Unit,
+    onCardClick: (HomeMovieViewState) -> Unit,
     onFavouriteToggle: (Boolean) -> Unit
 ) {
     Card(
         modifier
             .size(120.dp, 180.dp)
             .padding(Spacing().small)
-            .clickable{onCardClick()},
+            .clickable{onCardClick},
         elevation = Spacing().small
     ) {
         Box(modifier = Modifier.fillMaxSize()) {

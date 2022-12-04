@@ -28,14 +28,16 @@ val FavoritesMoviesViewState =
 
 @Composable
 fun FavoritesRoute(
-    onNavigateToMovieDetails: (HomeMovieViewState) -> Unit
+    onNavigateToMovieDetails: (HomeMovieViewState) -> Unit,
+    onFavouriteToggleButton: (Boolean) -> Unit
 ) {
-    FavoritesScreen()
+    FavoritesScreen(onNavigateToMovieDetails, onFavouriteToggleButton)
 }
 
 @Composable
 fun FavoritesScreen(
-
+    onNavigateToMovieDetails: (HomeMovieViewState) -> Unit,
+    onFavouriteToggleButton: (Boolean) -> Unit
 ) {
     Scaffold(
         topBar = { TopBar(onBackClick = {}) },
@@ -43,7 +45,9 @@ fun FavoritesScreen(
         content = { padding ->
             FavouritesBody(
                 favouriteMoviesViewState = FavoritesMoviesViewState,
-                padding = Spacing()
+                padding = Spacing(),
+                onNavigateToMovieDetails = onNavigateToMovieDetails,
+                onFavouriteToggleButton = onFavouriteToggleButton,
             )
         }
     )
@@ -52,6 +56,8 @@ fun FavoritesScreen(
 @Composable
 fun FavouritesBody(
     favouriteMoviesViewState: FavoritesViewState,
+    onNavigateToMovieDetails: (HomeMovieViewState) -> Unit,
+    onFavouriteToggleButton: (Boolean) -> Unit,
     padding: Spacing
 ) {
     LazyVerticalGrid(
@@ -72,8 +78,8 @@ fun FavouritesBody(
             items(favouriteMoviesViewState.favouriteMovies.size) { index ->
                 MovieCard(
                     movieCardViewState = favouriteMoviesViewState.favouriteMovies[index],
-                    onCardClick = { },
-                    onFavouriteToggle = { }
+                    onCardClick = onNavigateToMovieDetails,
+                    onFavouriteToggle = onFavouriteToggleButton
                 )
             }
         }
@@ -83,5 +89,5 @@ fun FavouritesBody(
 @Preview
 @Composable
 private fun PreviewFavoriteScreen() {
-    FavoritesScreen()
+    FavoritesScreen({},{})
 }

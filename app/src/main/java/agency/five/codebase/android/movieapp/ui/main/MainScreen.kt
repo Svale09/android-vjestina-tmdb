@@ -1,18 +1,17 @@
 package agency.five.codebase.android.movieapp.ui.main
 
-import agency.five.codebase.android.movieapp.model.Movie
 import agency.five.codebase.android.movieapp.navigation.MOVIE_ID_KEY
 import agency.five.codebase.android.movieapp.navigation.MovieDetailsDestination
 import agency.five.codebase.android.movieapp.navigation.NavigationItem
 import agency.five.codebase.android.movieapp.ui.favorites.FavoritesRoute
-import agency.five.codebase.android.movieapp.ui.home.HomeMovieViewState
 import agency.five.codebase.android.movieapp.ui.home.HomeRoute
-import agency.five.codebase.android.movieapp.ui.movieDetails.MovieDetailsRoute
+import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsRoute
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -48,8 +47,17 @@ fun MainScreen() {
                         NavigationItem.HomeDestination,
                         NavigationItem.FavoritesDestination,
                     ),
-                    onNavigateToDestination = navController.navigate(),
-                    currentDestination = navBackStackEntry?.destination
+                    currentDestination = navBackStackEntry?.destination,
+                    onNavigateToDestination = {
+                        navController.navigate(it.route){
+                            popUpTo(navController.graph.findStartDestination().id){
+                                saveState = true
+                                inclusive = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
                 )
         }
     ) { padding ->
@@ -75,7 +83,14 @@ fun MainScreen() {
                 }
                 composable(NavigationItem.FavoritesDestination.route) {
                     FavoritesRoute(
-                        onNavigateToMovieDetails = { navController.navigate(MovieDetailsDestination.createNavigationRoute(it.id) }
+                        onNavigateToMovieDetails = {
+                            navController.navigate(
+                                MovieDetailsDestination.createNavigationRoute(
+                                    it.id
+                                )
+                            )
+                        },
+                        onFavouriteToggleButton = {}
                     )
                 }
                 composable(

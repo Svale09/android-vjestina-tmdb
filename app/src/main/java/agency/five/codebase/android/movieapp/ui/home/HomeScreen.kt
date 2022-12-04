@@ -5,7 +5,6 @@ import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.ui.component.*
 import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapper
 import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapperImpl
-import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsViewState
 import agency.five.codebase.android.movieapp.ui.theme.CustomHeader
 import agency.five.codebase.android.movieapp.ui.theme.Spacing
 import androidx.compose.foundation.layout.Arrangement
@@ -17,8 +16,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -122,7 +119,7 @@ fun HomeScreen(
 @Preview
 @Composable
 private fun PreviewHomeScreen() {
-    HomeScreen({},{})
+    HomeScreen({}, {})
 }
 
 @Composable
@@ -134,29 +131,38 @@ fun HomeScreenBody(
     LazyColumn(modifier = Modifier.padding(bottom = 50.dp)) {
         item {
             HomeScreenCategoryHeader("Popular")
-            HomeScreenCategoryList(popularCategoryViewState)
+            HomeScreenCategoryList(
+                popularCategoryViewState,
+                onCategoryClick
+            )
             HomeScreenCategoryMoviesList(
                 movieCategory = popularCategoryViewState,
-                onCategoryClick = onCategoryClick,
+                onFavoriteToggle = {},
                 onCardClick = onNavigateToMovieDetails
             )
         }
         item {
             HomeScreenCategoryHeader(sectionTitle = "Now Playing")
-            HomeScreenCategoryList(nowPlayingCategoryViewState)
+            HomeScreenCategoryList(
+                nowPlayingCategoryViewState,
+                onCategoryClick
+            )
             HomeScreenCategoryMoviesList(
                 movieCategory = nowPlayingCategoryViewState,
-                onCategoryClick = onCategoryClick,
+                onFavoriteToggle = {},
                 onCardClick = onNavigateToMovieDetails
             )
         }
         item {
             HomeScreenCategoryHeader(sectionTitle = "Upcoming")
-            HomeScreenCategoryList(upcomingCategoryViewState)
+            HomeScreenCategoryList(
+                upcomingCategoryViewState,
+                onCategoryClick
+            )
             HomeScreenCategoryMoviesList(
                 movieCategory = upcomingCategoryViewState,
-                onCategoryClick = onCategoryClick,
-                onCardClick = onNavigateToMovieDetails
+                onCardClick = onNavigateToMovieDetails,
+                onFavoriteToggle = {}
             )
         }
     }
@@ -165,12 +171,13 @@ fun HomeScreenBody(
 @Preview
 @Composable
 private fun PreviewHomeScreenBody() {
-    HomeScreenBody(padding = Spacing())
+    HomeScreenBody(padding = Spacing(), onNavigateToMovieDetails = {}, onCategoryClick = {})
 }
 
 @Composable
 fun HomeScreenCategoryList(
-    categories: HomeMovieCategoryViewState
+    categories: HomeMovieCategoryViewState,
+    onCategoryClick: (MovieCategoryLabelViewState) -> Unit
 ) {
     LazyRow(
         modifier = Modifier.padding(horizontal = Spacing().medium, vertical = Spacing().small),
@@ -179,7 +186,8 @@ fun HomeScreenCategoryList(
         items(categories.movieCategories.count()) { item ->
             MovieCategoryLabel(
                 movieCategoryLabelViewState = categories.movieCategories[item],
-                onClick = {})
+                onClick = onCategoryClick
+            )
         }
     }
 }
@@ -187,7 +195,7 @@ fun HomeScreenCategoryList(
 @Composable
 fun HomeScreenCategoryMoviesList(
     movieCategory: HomeMovieCategoryViewState,
-    onCategoryClick: (MovieCategoryLabelViewState) -> Unit,
+    onFavoriteToggle: (Boolean) -> Unit,
     onCardClick: (HomeMovieViewState) -> Unit
 ) {
     val movies = movieCategory.movies
@@ -198,8 +206,8 @@ fun HomeScreenCategoryMoviesList(
                     movies[item].imageUrl,
                     movies[item].isFavorite
                 ),
-                onCardClick = { onCardClick },
-                onFavouriteToggle = {},
+                onCardClick = onCardClick,
+                onFavouriteToggle = onFavoriteToggle,
                 modifier = Modifier
                     .height(200.dp)
                     .width(130.dp)

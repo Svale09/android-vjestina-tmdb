@@ -33,13 +33,13 @@ data class MovieCategoryLabelViewState(
 fun MovieCategoryLabel(
     movieCategoryLabelViewState: MovieCategoryLabelViewState,
     modifier: Modifier = Modifier,
-    onClick: (Boolean) -> Unit
+    onClick: (MovieCategoryLabelViewState) -> Unit
 ) {
     Box(modifier = modifier.wrapContentSize()) {
         Column(
             modifier = Modifier
                 .width(intrinsicSize = IntrinsicSize.Max)
-                .clickable { onClick(true) }
+                .clickable { onClick }
         ) {
             Text(
                 text = when (movieCategoryLabelViewState.categoryText) {

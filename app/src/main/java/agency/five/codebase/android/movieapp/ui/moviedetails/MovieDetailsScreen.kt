@@ -1,6 +1,7 @@
 package agency.five.codebase.android.movieapp.ui.moviedetails
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock
+import agency.five.codebase.android.movieapp.model.MovieDetails
 import agency.five.codebase.android.movieapp.ui.component.*
 import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapper
 import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapperImpl
@@ -37,14 +38,12 @@ val MovieDetailsScreenViewState =
     MovieDetailsScreenMapper.toMovieDetailsViewState(MoviesMock.getMovieDetails())
 
 @Composable
-fun MovieDetailsRoute(){
-
+fun MovieDetailsRoute() {
+    MovieDetailsScreen()
 }
 
 @Composable
-fun MovieDetailsScreen(
-    movieDetailsScreenViewState: MovieDetailsViewState
-) {
+fun MovieDetailsScreen() {
     Scaffold(
         topBar = { TopBar(onBackClick = {}) },
         bottomBar = { BottomBar(onHomeClick = {}, onFavouriteClick = {}) },
@@ -214,7 +213,7 @@ fun CastGrid(
             }
         )*/
         LazyRow() {
-            items(cast.size) { index ->  
+            items(cast.size) { index ->
                 ActorCard(actorCardViewState = cast[index])
             }
         }

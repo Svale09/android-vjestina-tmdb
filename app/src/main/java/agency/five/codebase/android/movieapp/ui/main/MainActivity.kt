@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
             MovieAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-                    //ActorCard(actorCardViewState = getActor())
+                    MainScreen()
                 }
             }
         }
@@ -40,5 +40,13 @@ fun Greeting(name: String) {
 fun DefaultPreview() {
     MovieAppTheme {
         Greeting("Android")
+    }
+}
+
+@Preview
+@Composable
+private fun MainActivityPreview(){
+    MovieAppTheme {
+        MainScreen()
     }
 }
