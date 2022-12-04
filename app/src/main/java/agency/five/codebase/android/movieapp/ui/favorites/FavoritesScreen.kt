@@ -5,6 +5,7 @@ import agency.five.codebase.android.movieapp.ui.component.BottomBar
 import agency.five.codebase.android.movieapp.ui.component.MovieCard
 import agency.five.codebase.android.movieapp.ui.component.TopBar
 import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapperImpl
+import agency.five.codebase.android.movieapp.ui.home.HomeMovieViewState
 import agency.five.codebase.android.movieapp.ui.theme.Blue
 import agency.five.codebase.android.movieapp.ui.theme.Spacing
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,7 +27,16 @@ val FavoritesMoviesViewState =
     FavoritesViewStateMapper.toFavoritesViewState(MoviesMock.getMoviesList())
 
 @Composable
-fun FavoritesScreen() {
+fun FavoritesRoute(
+    onNavigateToMovieDetails: (HomeMovieViewState) -> Unit
+) {
+    FavoritesScreen()
+}
+
+@Composable
+fun FavoritesScreen(
+
+) {
     Scaffold(
         topBar = { TopBar(onBackClick = {}) },
         bottomBar = { BottomBar(onHomeClick = {}, onFavouriteClick = {}) },

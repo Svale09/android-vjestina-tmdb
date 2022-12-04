@@ -37,6 +37,11 @@ val MovieDetailsScreenViewState =
     MovieDetailsScreenMapper.toMovieDetailsViewState(MoviesMock.getMovieDetails())
 
 @Composable
+fun MovieDetailsRoute(){
+
+}
+
+@Composable
 fun MovieDetailsScreen(
     movieDetailsScreenViewState: MovieDetailsViewState
 ) {
