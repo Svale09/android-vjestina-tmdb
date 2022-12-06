@@ -11,8 +11,9 @@ class FavoritesMapperImpl : FavoritesMapper {
         for (favouriteMovie in favouriteMovies) {
             favouriteMoviesCardViewState.add(
                 MovieCardViewState(
+                    favouriteMovie.id,
                     favouriteMovie.imageUrl,
-                    favouriteMovie.isFavorite
+                    favouriteMovie.isFavorite,
                 )
             )
         }

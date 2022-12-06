@@ -1,12 +1,10 @@
 package agency.five.codebase.android.movieapp.ui.favorites
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock
-import agency.five.codebase.android.movieapp.ui.component.BottomBar
 import agency.five.codebase.android.movieapp.ui.component.MovieCard
-import agency.five.codebase.android.movieapp.ui.component.TopBar
 import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapperImpl
 import agency.five.codebase.android.movieapp.ui.home.HomeMovieViewState
-import agency.five.codebase.android.movieapp.ui.theme.Blue
+import agency.five.codebase.android.movieapp.ui.theme.CustomHeader
 import agency.five.codebase.android.movieapp.ui.theme.Spacing
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,9 +15,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 
 private val FavoritesViewStateMapper: FavoritesMapper = FavoritesMapperImpl()
 
@@ -40,8 +36,8 @@ fun FavoritesScreen(
     onFavouriteToggleButton: (Boolean) -> Unit
 ) {
     Scaffold(
-        topBar = { TopBar(onBackClick = {}) },
-        bottomBar = { BottomBar(onHomeClick = {}, onFavouriteClick = {}) },
+        /*topBar = { TopBar(onBackClick = {}) },
+        bottomBar = { BottomBar(onHomeClick = {}, onFavouriteClick = {}) },*/
         content = { padding ->
             FavouritesBody(
                 favouriteMoviesViewState = FavoritesMoviesViewState,
@@ -63,22 +59,20 @@ fun FavouritesBody(
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         Modifier
-            .padding(padding.medium)
+            .padding(padding.small)
             .fillMaxSize(),
         content = {
             item(span = { GridItemSpan(maxCurrentLineSpan) }) {
                 Text(
-                    modifier = Modifier.padding(Spacing().small),
+                    modifier = Modifier.padding(bottom = Spacing().small, start = Spacing().small),
                     text = "Favorites",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Blue
+                    style = CustomHeader
                 )
             }
             items(favouriteMoviesViewState.favouriteMovies.size) { index ->
                 MovieCard(
                     movieCardViewState = favouriteMoviesViewState.favouriteMovies[index],
-                    onCardClick = onNavigateToMovieDetails,
+                    onNavigateToMovieDetails = onNavigateToMovieDetails,
                     onFavouriteToggle = onFavouriteToggleButton
                 )
             }

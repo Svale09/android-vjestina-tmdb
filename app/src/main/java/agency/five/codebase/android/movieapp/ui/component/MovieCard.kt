@@ -1,7 +1,6 @@
 package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock.getMoviesList
-import agency.five.codebase.android.movieapp.model.Movie
 import agency.five.codebase.android.movieapp.ui.home.HomeMovieViewState
 import agency.five.codebase.android.movieapp.ui.theme.Spacing
 import androidx.compose.foundation.layout.*
@@ -16,6 +15,7 @@ import coil.compose.AsyncImage
 import androidx.compose.foundation.clickable as clickable
 
 data class MovieCardViewState(
+    val movieId: Int,
     val imageUrl: String?,
     val isFavourite: Boolean,
 )
@@ -24,14 +24,14 @@ data class MovieCardViewState(
 fun MovieCard(
     movieCardViewState: MovieCardViewState,
     modifier: Modifier = Modifier,
-    onCardClick: (HomeMovieViewState) -> Unit,
+    onNavigateToMovieDetails: (HomeMovieViewState) -> Unit,
     onFavouriteToggle: (Boolean) -> Unit
 ) {
     Card(
         modifier
             .size(120.dp, 180.dp)
             .padding(Spacing().small)
-            .clickable{onCardClick},
+            .clickable { onNavigateToMovieDetails },
         elevation = Spacing().small
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -56,8 +56,12 @@ fun MovieCard(
 private fun PreviewMovieCard() {
     val movies = getMoviesList()
     MovieCard(
-        movieCardViewState = MovieCardViewState(movies[0].imageUrl, movies[0].isFavorite),
-        onCardClick = {},
+        movieCardViewState = MovieCardViewState(
+            movieId = movies[0].id,
+            imageUrl = movies[0].imageUrl,
+            isFavourite = movies[0].isFavorite
+        ),
+        onNavigateToMovieDetails = {},
         onFavouriteToggle = {}
     )
 }

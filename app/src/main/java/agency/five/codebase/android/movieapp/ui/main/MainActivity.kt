@@ -22,7 +22,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             MovieAppTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
                     MainScreen()
                 }
             }
@@ -45,7 +48,7 @@ fun DefaultPreview() {
 
 @Preview
 @Composable
-private fun MainActivityPreview(){
+private fun MainActivityPreview() {
     MovieAppTheme {
         MainScreen()
     }

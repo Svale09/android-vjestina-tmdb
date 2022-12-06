@@ -86,7 +86,7 @@ fun MainScreen() {
                         onNavigateToMovieDetails = {
                             navController.navigate(
                                 MovieDetailsDestination.createNavigationRoute(
-                                    it.id
+                                    movieId = it.id
                                 )
                             )
                         }
@@ -97,7 +97,7 @@ fun MainScreen() {
                         onNavigateToMovieDetails = {
                             navController.navigate(
                                 MovieDetailsDestination.createNavigationRoute(
-                                    it.id
+                                    movieId = it.id
                                 )
                             )
                         },
@@ -121,7 +121,7 @@ private fun TopBar(
 ) {
     Box(
         modifier = Modifier
-            .height(80.dp)
+            .height(60.dp)
             .fillMaxWidth()
             .background(Blue),
     ) {
@@ -132,8 +132,8 @@ private fun TopBar(
             painter = painterResource(id = R.drawable.tmdb_logo),
             contentDescription = "icon",
             modifier = Modifier
-                .width(135.dp)
-                .height(35.dp)
+                /*.width(135.dp)
+                .height(35.dp)*/
                 .align(alignment = Alignment.Center),
             contentScale = ContentScale.Crop,
         )
@@ -165,7 +165,25 @@ private fun BottomNavigationBar(
         backgroundColor = MaterialTheme.colors.background
     ) {
         destinations.forEach { destination ->
-
+            BottomNavigationItem(
+                modifier = Modifier,
+                selected = (destination.route == currentDestination?.route.toString()),
+                onClick = { onNavigateToDestination(destination) },
+                icon = {
+                    Icon(
+                        painter = if (destination.route == currentDestination?.route.toString()) {
+                            painterResource(
+                                id = destination.selectedIconId
+                            )
+                        } else {
+                            painterResource(id = destination.unselectedIconId)
+                        },
+                        contentDescription = stringResource(id = destination.labelId)
+                    )
+                },
+                label = { Text(text = stringResource(id = destination.labelId)) }
+            )
         }
     }
 }
+

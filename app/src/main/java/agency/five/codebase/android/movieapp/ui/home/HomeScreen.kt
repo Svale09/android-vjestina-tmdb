@@ -104,8 +104,8 @@ fun HomeScreen(
     padding: Spacing = Spacing()
 ) {
     Scaffold(
-        topBar = { TopBar(onBackClick = {}) },
-        bottomBar = { BottomBar(onHomeClick = {}, onFavouriteClick = {}) },
+        /*topBar = { TopBar(onBackClick = {}) },
+        bottomBar = { BottomBar(onHomeClick = {}, onFavouriteClick = {}) },*/
         content = { padding ->
             HomeScreenBody(
                 padding = Spacing(),
@@ -128,7 +128,7 @@ fun HomeScreenBody(
     onNavigateToMovieDetails: (HomeMovieViewState) -> Unit,
     padding: Spacing
 ) {
-    LazyColumn(modifier = Modifier.padding(bottom = 50.dp)) {
+    LazyColumn(modifier = Modifier.padding(top = Spacing().small)) {
         item {
             HomeScreenCategoryHeader("Popular")
             HomeScreenCategoryList(
@@ -138,7 +138,7 @@ fun HomeScreenBody(
             HomeScreenCategoryMoviesList(
                 movieCategory = popularCategoryViewState,
                 onFavoriteToggle = {},
-                onCardClick = onNavigateToMovieDetails
+                onNavigateToMovieDetails = onNavigateToMovieDetails
             )
         }
         item {
@@ -150,7 +150,7 @@ fun HomeScreenBody(
             HomeScreenCategoryMoviesList(
                 movieCategory = nowPlayingCategoryViewState,
                 onFavoriteToggle = {},
-                onCardClick = onNavigateToMovieDetails
+                onNavigateToMovieDetails = onNavigateToMovieDetails
             )
         }
         item {
@@ -161,7 +161,7 @@ fun HomeScreenBody(
             )
             HomeScreenCategoryMoviesList(
                 movieCategory = upcomingCategoryViewState,
-                onCardClick = onNavigateToMovieDetails,
+                onNavigateToMovieDetails = onNavigateToMovieDetails,
                 onFavoriteToggle = {}
             )
         }
@@ -196,17 +196,18 @@ fun HomeScreenCategoryList(
 fun HomeScreenCategoryMoviesList(
     movieCategory: HomeMovieCategoryViewState,
     onFavoriteToggle: (Boolean) -> Unit,
-    onCardClick: (HomeMovieViewState) -> Unit
+    onNavigateToMovieDetails: (HomeMovieViewState) -> Unit
 ) {
     val movies = movieCategory.movies
     LazyRow(modifier = Modifier.padding(Spacing().small)) {
         items(movies.count()) { item ->
             MovieCard(
                 movieCardViewState = MovieCardViewState(
+                    movies[item].id,
                     movies[item].imageUrl,
                     movies[item].isFavorite
                 ),
-                onCardClick = onCardClick,
+                onNavigateToMovieDetails = onNavigateToMovieDetails,
                 onFavouriteToggle = onFavoriteToggle,
                 modifier = Modifier
                     .height(200.dp)

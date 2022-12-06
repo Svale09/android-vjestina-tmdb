@@ -19,6 +19,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -39,18 +41,18 @@ val MovieDetailsScreenViewState =
 
 @Composable
 fun MovieDetailsRoute() {
-    MovieDetailsScreen()
+    MovieDetailsScreen(MovieDetailsScreenViewState)
 }
 
 @Composable
-fun MovieDetailsScreen() {
+fun MovieDetailsScreen(
+    movieDetailsScreenViewState: MovieDetailsViewState
+) {
     Scaffold(
-        topBar = { TopBar(onBackClick = {}) },
-        bottomBar = { BottomBar(onHomeClick = {}, onFavouriteClick = {}) },
         content = { padding ->
             MovieDetailsBody(
                 padding = Spacing(),
-                movieDetailsScreenViewState = MovieDetailsScreenViewState
+                movieDetailsScreenViewState = movieDetailsScreenViewState
             )
         }
     )
@@ -203,15 +205,6 @@ fun CastGrid(
         horizontalAlignment = Alignment.Start,
     ) {
         Text(text = "Top Billed Cast", style = SectionTitle, modifier = Modifier.padding(10.dp))
-        /*LazyHorizontalGrid(
-            rows = GridCells.Fixed(1),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            content = {
-                items(cast.size) { index ->
-                    ActorCard(actorCardViewState = cast[index])
-                }
-            }
-        )*/
         LazyRow() {
             items(cast.size) { index ->
                 ActorCard(actorCardViewState = cast[index])
