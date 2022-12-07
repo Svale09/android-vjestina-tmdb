@@ -18,6 +18,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 val homeScreenMapper: HomeScreenMapper = HomeScreenMapperImpl()
@@ -55,9 +56,6 @@ val upcomingCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
 fun HomeRoute(
     onNavigateToMovieDetails: (HomeMovieViewState) -> Unit
 ) {
-    /*var popularMovies by remember { mutableStateOf(popularCategoryViewState) }
-    var nowPlayingMovies by remember { mutableStateOf(nowPlayingCategoryViewState) }
-    var upcomingMovies by remember { mutableStateOf(upcomingCategoryViewState) }*/
     HomeScreen(
         onCategoryClick = {
             when (it.itemId) {

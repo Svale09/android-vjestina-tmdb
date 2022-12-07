@@ -178,6 +178,7 @@ fun CrewGrid(
         modifier = Modifier
             .fillMaxWidth()
             .padding(Spacing().medium)
+            .heightIn(max = 200.dp)
             .wrapContentHeight(), //crash happens if the height isn't set to an exact measurements
         columns = GridCells.Fixed(3),
         verticalArrangement = Arrangement.spacedBy(Spacing().medium),

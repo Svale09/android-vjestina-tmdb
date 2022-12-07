@@ -31,7 +31,7 @@ fun MovieCard(
         modifier
             .size(120.dp, 180.dp)
             .padding(Spacing().small)
-            .clickable { onNavigateToMovieDetails },
+            .clickable { onNavigateToMovieDetails(HomeMovieViewState(movieCardViewState.movieId,movieCardViewState.isFavourite,movieCardViewState.imageUrl)) },
         elevation = Spacing().small
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
