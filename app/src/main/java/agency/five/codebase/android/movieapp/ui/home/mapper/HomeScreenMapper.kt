@@ -12,5 +12,3 @@ interface HomeScreenMapper {
         movies: List<Movie>,
     ): HomeMovieCategoryViewState
 }
-
-

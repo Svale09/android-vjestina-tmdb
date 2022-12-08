@@ -15,10 +15,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-data class FavouriteButtonState(
-    var isFavourite: Boolean
-)
-
 @Composable
 fun FavouriteButton(
     isFavourite: Boolean,
@@ -31,13 +27,12 @@ fun FavouriteButton(
             .size(37.dp)
             .clip(shape = CircleShape)
             .background(Color(0x0B253F).copy(alpha = 0.6F))
-            .clickable { onFavouriteToggle( isFavourite) },
+            .clickable { onFavouriteToggle(isFavourite) },
         contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(
-                id =
-                if (isFavourite) R.drawable.favuoirteicon_selected else R.drawable.favouriteicon_unselected
+                id = if (isFavourite) R.drawable.favuoirte_icon_selected else R.drawable.favourite_icon_unselected
             ),
             contentDescription = "Favourite Icon",
         )

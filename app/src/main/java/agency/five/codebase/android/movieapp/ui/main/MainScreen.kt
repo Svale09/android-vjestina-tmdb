@@ -12,6 +12,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+//import androidx.compose.foundation.layout.BoxScopeInstance.align
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -47,7 +47,10 @@ fun MainScreen() {
         topBar = {
             TopBar(
                 navigationIcon = {
-                    if (showBackIcon) BackIcon(onBackClick = navController::popBackStack)
+                    if (showBackIcon) BackIcon(
+                        onBackClick = navController::popBackStack,
+                        //modifier = Modifier.align(Alignment.CenterStart)//Doesn't work, constantly throwing "Cannot access 'BoxScopeInstance': it is internal in 'androidx.compose.foundation.layout'"
+                    )
                 }
             )
         },
@@ -123,19 +126,15 @@ private fun TopBar(
         modifier = Modifier
             .height(60.dp)
             .fillMaxWidth()
-            .background(Blue),
+            .background(Blue)
     ) {
-        navigationIcon?.invoke(
-
-        )
+        navigationIcon?.invoke()
         Image(
             painter = painterResource(id = R.drawable.tmdb_logo),
             contentDescription = "icon",
-            modifier = Modifier
-                /*.width(135.dp)
-                .height(35.dp)*/
-                .align(alignment = Alignment.Center),
             contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .align(alignment = Alignment.Center)
         )
     }
 }
@@ -148,10 +147,11 @@ private fun BackIcon(
     Image(
         painter = painterResource(id = R.drawable.back_arrow),
         contentDescription = "Back arrow",
-        modifier = Modifier
+        modifier
+            .padding(start = 10.dp)
             .width(12.dp)
             .height(20.dp)
-            .clickable { onBackClick }
+            .clickable { onBackClick() }
     )
 }
 
@@ -186,4 +186,3 @@ private fun BottomNavigationBar(
         }
     }
 }
-

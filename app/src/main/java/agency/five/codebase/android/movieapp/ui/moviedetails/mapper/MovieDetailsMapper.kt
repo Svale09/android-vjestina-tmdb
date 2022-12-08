@@ -6,5 +6,3 @@ import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsViewSta
 interface MovieDetailsMapper {
     fun toMovieDetailsViewState(movieDetails: MovieDetails): MovieDetailsViewState
 }
-
-

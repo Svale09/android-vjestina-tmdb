@@ -2,7 +2,6 @@ package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.R
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,7 +29,7 @@ fun BottomBar(
         ) {
             Column (horizontalAlignment = Alignment.CenterHorizontally){
                 Image(
-                    painter = painterResource(id = R.drawable.homeicon_selected),
+                    painter = painterResource(id = R.drawable.home_icon_selected),
                     contentDescription = "Home icon",
                     Modifier.clickable { onHomeClick() }
                 )
@@ -38,7 +37,7 @@ fun BottomBar(
             }
             Column (horizontalAlignment = Alignment.CenterHorizontally){
                 Image(
-                    painter = painterResource(id = R.drawable.favuoirteicon_selected),
+                    painter = painterResource(id = R.drawable.favuoirte_icon_selected),
                     contentDescription = "Favourite icon",
                     Modifier.clickable { onFavouriteClick() }
                 )
