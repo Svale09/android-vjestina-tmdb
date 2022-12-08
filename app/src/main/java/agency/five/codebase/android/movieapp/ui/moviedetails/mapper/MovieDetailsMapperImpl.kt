@@ -21,32 +21,20 @@ class MovieDetailsMapperImpl : MovieDetailsMapper {
         )
     }
 
-    private fun toCrewmanViewState(crewmen: List<Crewman>): List<CrewmanViewState> {
-        val crewmenViewState: MutableList<CrewmanViewState> = mutableListOf()
-        for (crewman in crewmen) {
-            crewmenViewState.add(
-                CrewmanViewState(
-                    crewman.name,
-                    crewman.job
-                )
+    private fun toCrewmanViewState(crewmen: List<Crewman>) =
+        crewmen.map {
+            CrewmanViewState(
+                name = it.name,
+                job = it.job
             )
         }
-        return crewmenViewState
-    }
 
-    private fun toActorViewState(actors: List<Actor>): List<ActorViewState> {
-        val actorsViewStates: MutableList<ActorViewState> = mutableListOf()
-        for (actor in actors) {
-            actorsViewStates.add(
-                ActorViewState(
-                    actor.name,
-                    actor.character,
-                    actor.imageUrl.toString()
-                )
+    private fun toActorViewState(actors: List<Actor>) =
+        actors.map {
+            ActorViewState(
+                name = it.name,
+                character = it.character,
+                imageUrl = it.imageUrl.toString()
             )
         }
-        return actorsViewStates
-    }
 }
-
-

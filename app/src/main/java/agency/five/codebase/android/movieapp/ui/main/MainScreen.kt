@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -47,7 +46,9 @@ fun MainScreen() {
         topBar = {
             TopBar(
                 navigationIcon = {
-                    if (showBackIcon) BackIcon(onBackClick = navController::popBackStack)
+                    if (showBackIcon) BackIcon(
+                        onBackClick = navController::popBackStack,
+                    )
                 }
             )
         },
@@ -117,25 +118,22 @@ fun MainScreen() {
 
 @Composable
 private fun TopBar(
-    navigationIcon: @Composable (() -> Unit)? = null,
+    navigationIcon: @Composable ((Modifier) -> Unit)? = null,
 ) {
     Box(
         modifier = Modifier
             .height(60.dp)
             .fillMaxWidth()
             .background(Blue),
+        contentAlignment = Alignment.CenterStart
     ) {
-        navigationIcon?.invoke(
-
-        )
+        navigationIcon?.invoke(Modifier.align(Alignment.CenterStart))
         Image(
             painter = painterResource(id = R.drawable.tmdb_logo),
             contentDescription = "icon",
-            modifier = Modifier
-                /*.width(135.dp)
-                .height(35.dp)*/
-                .align(alignment = Alignment.Center),
             contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .align(alignment = Alignment.Center)
         )
     }
 }
@@ -148,10 +146,11 @@ private fun BackIcon(
     Image(
         painter = painterResource(id = R.drawable.back_arrow),
         contentDescription = "Back arrow",
-        modifier = Modifier
+        modifier
+            .padding(start = 10.dp)
             .width(12.dp)
             .height(20.dp)
-            .clickable { onBackClick }
+            .clickable { onBackClick() }
     )
 }
 
@@ -186,4 +185,3 @@ private fun BottomNavigationBar(
         }
     }
 }
-

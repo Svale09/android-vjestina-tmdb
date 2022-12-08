@@ -39,7 +39,7 @@ fun MovieCategoryLabel(
         Column(
             modifier = Modifier
                 .width(intrinsicSize = IntrinsicSize.Max)
-                .clickable { onClick }
+                .clickable { onClick(movieCategoryLabelViewState) }
         ) {
             Text(
                 text = when (movieCategoryLabelViewState.categoryText) {

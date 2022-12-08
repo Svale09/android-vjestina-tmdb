@@ -36,8 +36,6 @@ fun FavoritesScreen(
     onFavouriteToggleButton: (Boolean) -> Unit
 ) {
     Scaffold(
-        /*topBar = { TopBar(onBackClick = {}) },
-        bottomBar = { BottomBar(onHomeClick = {}, onFavouriteClick = {}) },*/
         content = { padding ->
             FavouritesBody(
                 favouriteMoviesViewState = FavoritesMoviesViewState,
@@ -83,5 +81,5 @@ fun FavouritesBody(
 @Preview
 @Composable
 private fun PreviewFavoriteScreen() {
-    FavoritesScreen({},{})
+    FavoritesScreen({}, {})
 }

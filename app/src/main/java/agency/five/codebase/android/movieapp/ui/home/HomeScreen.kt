@@ -2,110 +2,120 @@ package agency.five.codebase.android.movieapp.ui.home
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock.getMoviesList
 import agency.five.codebase.android.movieapp.model.MovieCategory
-import agency.five.codebase.android.movieapp.ui.component.*
+import agency.five.codebase.android.movieapp.ui.component.MovieCard
+import agency.five.codebase.android.movieapp.ui.component.MovieCardViewState
+import agency.five.codebase.android.movieapp.ui.component.MovieCategoryLabel
+import agency.five.codebase.android.movieapp.ui.component.MovieCategoryLabelViewState
 import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapper
 import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.CustomHeader
 import agency.five.codebase.android.movieapp.ui.theme.Spacing
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-val homeScreenMapper: HomeScreenMapper = HomeScreenMapperImpl()
+private val homeScreenMapper: HomeScreenMapper = HomeScreenMapperImpl()
 
-val popularCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
-    movieCategories = listOf(
-        MovieCategory.POPULAR_STREAMING,
-        MovieCategory.POPULAR_ONTV,
-        MovieCategory.POPULAR_FORRENT,
-        MovieCategory.POPULAR_INTHEATERS,
-    ),
-    selectedMovieCategory = MovieCategory.POPULAR_STREAMING,
-    movies = getMoviesList()
-)
-
-val nowPlayingCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
-    movieCategories = listOf(
-        MovieCategory.NOWPLAYING_MOVIES,
-        MovieCategory.NOWPLAYING_TV,
-    ),
-    selectedMovieCategory = MovieCategory.NOWPLAYING_MOVIES,
-    movies = getMoviesList()
-)
-
-val upcomingCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
-    movieCategories = listOf(
-        MovieCategory.UPCOMING_TODAY,
-        MovieCategory.UPCOMING_THISWEEK
-    ),
-    selectedMovieCategory = MovieCategory.UPCOMING_TODAY,
-    movies = getMoviesList()
-)
+val popularCategoryViewState =
+    homeScreenMapper.toHomeMovieCategoryViewState(
+        listOf(
+            MovieCategory.POPULAR_STREAMING,
+            MovieCategory.POPULAR_ONTV,
+            MovieCategory.POPULAR_FORRENT,
+            MovieCategory.POPULAR_INTHEATERS
+        ), MovieCategory.POPULAR_STREAMING, getMoviesList()
+    )
+val nowPlayingCategoryViewState =
+    homeScreenMapper.toHomeMovieCategoryViewState(
+        listOf(
+            MovieCategory.NOWPLAYING_TV,
+            MovieCategory.NOWPLAYING_MOVIES
+        ), MovieCategory.NOWPLAYING_TV, getMoviesList()
+    )
+val upcomingCategoryViewState =
+    homeScreenMapper.toHomeMovieCategoryViewState(
+        listOf(
+            MovieCategory.UPCOMING_TODAY,
+            MovieCategory.UPCOMING_THISWEEK
+        ), MovieCategory.UPCOMING_TODAY, getMoviesList()
+    )
 
 @Composable
 fun HomeRoute(
-    onNavigateToMovieDetails: (HomeMovieViewState) -> Unit
+    onNavigateToMovieDetails: (HomeMovieViewState) -> Unit,
 ) {
+    var popularMovies by remember { mutableStateOf(popularCategoryViewState) }
+    var nowPlayingMovies by remember { mutableStateOf(nowPlayingCategoryViewState) }
+    var upcomingMovies by remember { mutableStateOf(upcomingCategoryViewState) }
+
     HomeScreen(
+        popularMovies,
+        nowPlayingMovies,
+        upcomingMovies,
+        onNavigateToMovieDetails = onNavigateToMovieDetails,
         onCategoryClick = {
             when (it.itemId) {
                 MovieCategory.POPULAR_STREAMING.ordinal,
                 MovieCategory.POPULAR_FORRENT.ordinal,
                 MovieCategory.POPULAR_ONTV.ordinal,
-                MovieCategory.POPULAR_INTHEATERS.ordinal -> homeScreenMapper.toHomeMovieCategoryViewState(
-                    listOf(
-                        MovieCategory.POPULAR_STREAMING,
-                        MovieCategory.POPULAR_ONTV,
-                        MovieCategory.POPULAR_FORRENT,
-                        MovieCategory.POPULAR_INTHEATERS,
-                    ),
-                    MovieCategory.values()[it.itemId],
-                    getMoviesList()
-                )
+                MovieCategory.POPULAR_INTHEATERS.ordinal
+                -> popularMovies =
+                    homeScreenMapper.toHomeMovieCategoryViewState(
+                        listOf(
+                            MovieCategory.POPULAR_STREAMING,
+                            MovieCategory.POPULAR_ONTV,
+                            MovieCategory.POPULAR_FORRENT,
+                            MovieCategory.POPULAR_INTHEATERS
+                        ),
+                        MovieCategory.values()[it.itemId],
+                        getMoviesList()
+                    )
                 MovieCategory.NOWPLAYING_MOVIES.ordinal,
-                MovieCategory.NOWPLAYING_TV.ordinal -> homeScreenMapper.toHomeMovieCategoryViewState(
-                    listOf(
-                        MovieCategory.NOWPLAYING_MOVIES,
-                        MovieCategory.NOWPLAYING_TV
-                    ),
-                    MovieCategory.values()[it.itemId],
-                    getMoviesList()
-                )
-                else -> homeScreenMapper.toHomeMovieCategoryViewState(
-                    listOf(
-                        MovieCategory.UPCOMING_TODAY,
-                        MovieCategory.UPCOMING_THISWEEK
-                    ),
-                    MovieCategory.values()[it.itemId],
-                    getMoviesList()
-                )
+                MovieCategory.NOWPLAYING_TV.ordinal
+                -> nowPlayingMovies =
+                    homeScreenMapper.toHomeMovieCategoryViewState(
+                        listOf(
+                            MovieCategory.NOWPLAYING_TV,
+                            MovieCategory.NOWPLAYING_MOVIES
+                        ),
+                        MovieCategory.values()[it.itemId],
+                        getMoviesList()
+                    )
+                else -> upcomingMovies =
+                    homeScreenMapper.toHomeMovieCategoryViewState(
+                        listOf(
+                            MovieCategory.UPCOMING_TODAY,
+                            MovieCategory.UPCOMING_THISWEEK
+                        ),
+                        MovieCategory.values()[it.itemId],
+                        getMoviesList()
+                    )
             }
-        },
-        onNavigateToMovieDetails = onNavigateToMovieDetails
+        }
     )
 }
 
 @Composable
 fun HomeScreen(
+    popularMovies: HomeMovieCategoryViewState,
+    nowPlayingMovies: HomeMovieCategoryViewState,
+    upcomingMovies: HomeMovieCategoryViewState,
     onCategoryClick: (MovieCategoryLabelViewState) -> Unit,
     onNavigateToMovieDetails: (HomeMovieViewState) -> Unit,
     padding: Spacing = Spacing()
 ) {
     Scaffold(
-        /*topBar = { TopBar(onBackClick = {}) },
-        bottomBar = { BottomBar(onHomeClick = {}, onFavouriteClick = {}) },*/
         content = { padding ->
             HomeScreenBody(
+                popularMovies,
+                nowPlayingMovies,
+                upcomingMovies,
                 padding = Spacing(),
                 onCategoryClick = onCategoryClick,
                 onNavigateToMovieDetails = onNavigateToMovieDetails
@@ -117,11 +127,20 @@ fun HomeScreen(
 @Preview
 @Composable
 private fun PreviewHomeScreen() {
-    HomeScreen({}, {})
+    HomeScreen(
+        popularMovies = popularCategoryViewState,
+        nowPlayingMovies = nowPlayingCategoryViewState,
+        upcomingMovies = upcomingCategoryViewState,
+        onCategoryClick = {},
+        onNavigateToMovieDetails = {}
+    )
 }
 
 @Composable
 fun HomeScreenBody(
+    popularMovies: HomeMovieCategoryViewState,
+    nowPlayingMovies: HomeMovieCategoryViewState,
+    upcomingMovies: HomeMovieCategoryViewState,
     onCategoryClick: (MovieCategoryLabelViewState) -> Unit,
     onNavigateToMovieDetails: (HomeMovieViewState) -> Unit,
     padding: Spacing
@@ -130,11 +149,11 @@ fun HomeScreenBody(
         item {
             HomeScreenCategoryHeader("Popular")
             HomeScreenCategoryList(
-                popularCategoryViewState,
-                onCategoryClick
+                popularMovies,
+                onCategoryClick = onCategoryClick
             )
             HomeScreenCategoryMoviesList(
-                movieCategory = popularCategoryViewState,
+                movieCategory = popularMovies,
                 onFavoriteToggle = {},
                 onNavigateToMovieDetails = onNavigateToMovieDetails
             )
@@ -142,11 +161,11 @@ fun HomeScreenBody(
         item {
             HomeScreenCategoryHeader(sectionTitle = "Now Playing")
             HomeScreenCategoryList(
-                nowPlayingCategoryViewState,
+                nowPlayingMovies,
                 onCategoryClick
             )
             HomeScreenCategoryMoviesList(
-                movieCategory = nowPlayingCategoryViewState,
+                movieCategory = nowPlayingMovies,
                 onFavoriteToggle = {},
                 onNavigateToMovieDetails = onNavigateToMovieDetails
             )
@@ -154,11 +173,11 @@ fun HomeScreenBody(
         item {
             HomeScreenCategoryHeader(sectionTitle = "Upcoming")
             HomeScreenCategoryList(
-                upcomingCategoryViewState,
+                upcomingMovies,
                 onCategoryClick
             )
             HomeScreenCategoryMoviesList(
-                movieCategory = upcomingCategoryViewState,
+                movieCategory = upcomingMovies,
                 onNavigateToMovieDetails = onNavigateToMovieDetails,
                 onFavoriteToggle = {}
             )
@@ -169,7 +188,14 @@ fun HomeScreenBody(
 @Preview
 @Composable
 private fun PreviewHomeScreenBody() {
-    HomeScreenBody(padding = Spacing(), onNavigateToMovieDetails = {}, onCategoryClick = {})
+    HomeScreenBody(
+        popularMovies = popularCategoryViewState,
+        nowPlayingMovies = nowPlayingCategoryViewState,
+        upcomingMovies = upcomingCategoryViewState,
+        onCategoryClick = {},
+        onNavigateToMovieDetails = {},
+        padding = Spacing()
+    )
 }
 
 @Composable

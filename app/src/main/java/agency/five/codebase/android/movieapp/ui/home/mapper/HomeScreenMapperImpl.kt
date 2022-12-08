@@ -14,55 +14,39 @@ class HomeScreenMapperImpl : HomeScreenMapper {
         movieCategories: List<MovieCategory>,
         selectedMovieCategory: MovieCategory,
         movies: List<Movie>
-    ): HomeMovieCategoryViewState {
-        return HomeMovieCategoryViewState(
-            movieCategories = toHomeMovieCategoryLabelViewState(
-                movieCategories,
-                selectedMovieCategory
-            ),
-            movies = toHomeMovieViewState(movies)
-        )
-    }
+    ) = HomeMovieCategoryViewState(
+        movieCategories = toHomeMovieCategoryLabelViewState(
+            movieCategories,
+            selectedMovieCategory
+        ), toHomeMovieViewState(movies)
+    )
 
-    private fun toHomeMovieViewState(movies: List<Movie>): List<HomeMovieViewState> {
-        val homeMoviesViewStates: MutableList<HomeMovieViewState> = mutableListOf()
-        for (movie in movies) {
-            homeMoviesViewStates.add(
-                HomeMovieViewState(
-                    movie.id,
-                    movie.isFavorite,
-                    movie.imageUrl
-                )
+    private fun toHomeMovieViewState(movies: List<Movie>) =
+        movies.map {
+            HomeMovieViewState(
+                isFavorite = it.isFavorite,
+                imageUrl = it.imageUrl,
+                id = it.id
             )
         }
-        return homeMoviesViewStates
-    }
 
     private fun toHomeMovieCategoryLabelViewState(
         movieCategories: List<MovieCategory>,
         selectedMovieCategory: MovieCategory
-    ): List<MovieCategoryLabelViewState> {
-        val movieCategoryLabelViewState: MutableList<MovieCategoryLabelViewState> = mutableListOf()
-        for (category in movieCategories) {
-            movieCategoryLabelViewState.add(
-                MovieCategoryLabelViewState(
-                    category.ordinal,
-                    isSelected = category == selectedMovieCategory,
-                    categoryText = MovieCategoryLabelTextViewState.MovieCategoryStringResource(
-                        when (category) {
-                            MovieCategory.POPULAR_STREAMING -> R.string.streaming
-                            MovieCategory.POPULAR_FORRENT -> R.string.for_rent
-                            MovieCategory.POPULAR_ONTV -> R.string.on_tv
-                            MovieCategory.POPULAR_INTHEATERS -> R.string.in_theaters
-                            MovieCategory.NOWPLAYING_MOVIES -> R.string.movies
-                            MovieCategory.NOWPLAYING_TV -> R.string.tv
-                            MovieCategory.UPCOMING_THISWEEK -> R.string.this_week
-                            MovieCategory.UPCOMING_TODAY -> R.string.today
-                        }
-                    )
-                )
-            )
-        }
-        return movieCategoryLabelViewState
+    ) = movieCategories.map {
+        MovieCategoryLabelViewState(
+            itemId = it.ordinal,
+            isSelected = it == selectedMovieCategory,
+            categoryText = MovieCategoryLabelTextViewState.MovieCategoryStringResource(when (it){
+                MovieCategory.POPULAR_STREAMING -> R.string.streaming
+                MovieCategory.POPULAR_ONTV -> R.string.on_tv
+                MovieCategory.POPULAR_FORRENT -> R.string.for_rent
+                MovieCategory.POPULAR_INTHEATERS -> R.string.in_theaters
+                MovieCategory.NOWPLAYING_TV -> R.string.tv
+                MovieCategory.NOWPLAYING_MOVIES -> R.string.movies
+                MovieCategory.UPCOMING_TODAY -> R.string.today
+                MovieCategory.UPCOMING_THISWEEK -> R.string.this_week
+            })
+        )
     }
 }

@@ -13,15 +13,15 @@ sealed class NavigationItem(
 ) : MovieAppDestination(route) {
     object HomeDestination : NavigationItem(
         route = HOME_ROUTE,
-        selectedIconId = R.drawable.homeicon_selected,
-        unselectedIconId = R.drawable.homeicon_unselected,
+        selectedIconId = R.drawable.home_icon_selected,
+        unselectedIconId = R.drawable.home_icon_unselected,
         labelId = R.string.home,
     )
 
     object FavoritesDestination : NavigationItem(
         route = FAVORITES_ROUTE,
-        selectedIconId = R.drawable.favuoirteicon_selected,
-        unselectedIconId = R.drawable.favouriteicon_unselected,
+        selectedIconId = R.drawable.favuoirte_icon_selected,
+        unselectedIconId = R.drawable.favourite_icon_unselected,
         labelId = R.string.favorites,
     )
 }
