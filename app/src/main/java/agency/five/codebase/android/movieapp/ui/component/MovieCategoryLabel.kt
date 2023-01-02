@@ -17,10 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 
-sealed class MovieCategoryLabelTextViewState()
-data class MovieCategoryStringParam(val value: String) : MovieCategoryLabelTextViewState()
-data class MovieCategoryStringResource(@StringRes val value: Int) :
-    MovieCategoryLabelTextViewState()
+sealed class MovieCategoryLabelTextViewState {
+    data class MovieCategoryStringParam(val value: String) : MovieCategoryLabelTextViewState()
+    data class MovieCategoryStringResource(@StringRes val value: Int) :
+        MovieCategoryLabelTextViewState()
+}
 
 data class MovieCategoryLabelViewState(
     val itemId: Int,
@@ -32,20 +33,20 @@ data class MovieCategoryLabelViewState(
 fun MovieCategoryLabel(
     movieCategoryLabelViewState: MovieCategoryLabelViewState,
     modifier: Modifier = Modifier,
-    onClick: (Boolean) -> Unit
+    onClick: (MovieCategoryLabelViewState) -> Unit
 ) {
     Box(modifier = modifier.wrapContentSize()) {
         Column(
             modifier = Modifier
                 .width(intrinsicSize = IntrinsicSize.Max)
-                .clickable { onClick(true) }
+                .clickable { onClick(movieCategoryLabelViewState) }
         ) {
             Text(
                 text = when (movieCategoryLabelViewState.categoryText) {
-                    is MovieCategoryStringParam -> movieCategoryLabelViewState.categoryText.value
-                    is MovieCategoryStringResource -> stringResource(id = movieCategoryLabelViewState.categoryText.value)
+                    is MovieCategoryLabelTextViewState.MovieCategoryStringParam -> movieCategoryLabelViewState.categoryText.value
+                    is MovieCategoryLabelTextViewState.MovieCategoryStringResource -> stringResource(id = movieCategoryLabelViewState.categoryText.value)
                 },
-                fontSize = 24.sp,
+                fontSize = 16.sp,
                 fontWeight = if (movieCategoryLabelViewState.isSelected) FontWeight.Bold else FontWeight.Normal,
                 color = if (movieCategoryLabelViewState.isSelected) Color.Black else Gray700,
             )
@@ -69,7 +70,7 @@ private fun PreviewMovieCategoryLabel() {
         movieCategoryLabelViewState = MovieCategoryLabelViewState(
             1,
             false,
-            MovieCategoryStringParam("Action")
+            MovieCategoryLabelTextViewState.MovieCategoryStringParam("Action")
         ),
         modifier = Modifier,
         onClick = {}

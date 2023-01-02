@@ -20,15 +20,20 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import agency.five.codebase.android.movieapp.mock.MoviesMock.getActor
 
+data class ActorViewState(
+    val name: String,
+    val character: String,
+    val imageUrl: String
+)
 
 @Composable
 fun ActorCard(
-    actorCardViewState: Actor,
+    actorCardViewState: ActorViewState,
     modifier: Modifier = Modifier,
 ) {
     Card(
         modifier
-            .size(width = 125.dp, height = 209.dp)
+            .size(width = 124.dp, height = 210.dp)
             .padding(10.dp),
         elevation = 10.dp
     ) {
@@ -77,7 +82,7 @@ fun ActorCard(
 private fun PreviewActorCard() {
     MovieAppTheme {
         ActorCard(
-            actorCardViewState = getActor()
+            actorCardViewState = ActorViewState(getActor().name, getActor().character, getActor().imageUrl.toString())
         )
     }
 }

@@ -3,7 +3,6 @@ package agency.five.codebase.android.movieapp.ui.main
 import agency.five.codebase.android.movieapp.mock.MoviesMock.getActor
 import agency.five.codebase.android.movieapp.model.Actor
 import agency.five.codebase.android.movieapp.ui.component.ActorCard
-import agency.five.codebase.android.movieapp.ui.component.ActorCardViewState
 import agency.five.codebase.android.movieapp.ui.component.FavouriteButton
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import android.os.Bundle
@@ -23,8 +22,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             MovieAppTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-                    ActorCard(actorCardViewState = getActor())
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
+                    MainScreen()
                 }
             }
         }
@@ -41,5 +43,13 @@ fun Greeting(name: String) {
 fun DefaultPreview() {
     MovieAppTheme {
         Greeting("Android")
+    }
+}
+
+@Preview
+@Composable
+private fun MainActivityPreview() {
+    MovieAppTheme {
+        MainScreen()
     }
 }
