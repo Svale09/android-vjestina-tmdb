@@ -44,7 +44,15 @@ object MoviesMock {
             isFavorite = false,
         ),
     )
-
+    fun getMovieDetailsById(movieId: Int): MovieDetails = MovieDetails(
+        movie = getMoviesList().first(){it.id == movieId},
+        voteAverage = getMovieDetails().voteAverage,
+        releaseDate = getMovieDetails().releaseDate,
+        language = getMovieDetails().language,
+        runtime = getMovieDetails().runtime,
+        crew = getMovieDetails().crew,
+        cast = getMovieDetails().cast
+    )
     fun getMovieDetails(): MovieDetails = MovieDetails(
         movie = Movie(
             id = 5,
