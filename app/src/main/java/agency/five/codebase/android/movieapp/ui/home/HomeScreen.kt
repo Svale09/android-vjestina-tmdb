@@ -1,5 +1,7 @@
 package agency.five.codebase.android.movieapp.ui.home
 
+/*import HomeMovieCategoryViewState
+import HomeMovieViewState*/
 import agency.five.codebase.android.movieapp.mock.MoviesMock.getMoviesList
 import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.ui.component.MovieCard
