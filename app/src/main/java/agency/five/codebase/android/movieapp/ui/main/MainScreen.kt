@@ -49,7 +49,6 @@ fun MainScreen() {
                 navigationIcon = {
                     if (showBackIcon) BackIcon(
                         onBackClick = navController::popBackStack,
-                        //modifier = Modifier.align(Alignment.CenterStart)//Doesn't work, constantly throwing "Cannot access 'BoxScopeInstance': it is internal in 'androidx.compose.foundation.layout'"
                     )
                 }
             )
@@ -120,15 +119,16 @@ fun MainScreen() {
 
 @Composable
 private fun TopBar(
-    navigationIcon: @Composable (() -> Unit)? = null,
+    navigationIcon: @Composable ((Modifier) -> Unit)? = null,
 ) {
     Box(
         modifier = Modifier
             .height(60.dp)
             .fillMaxWidth()
-            .background(Blue)
+            .background(Blue),
+        contentAlignment = Alignment.CenterStart
     ) {
-        navigationIcon?.invoke()
+        navigationIcon?.invoke(Modifier.align(Alignment.CenterStart))
         Image(
             painter = painterResource(id = R.drawable.tmdb_logo),
             contentDescription = "icon",
